@@ -12,8 +12,12 @@ import com.app.cryptocurrency.domain.model.Coin
 import com.app.cryptocurrency.domain.use_case.buy_sell_coin.BuySellUseCase
 import com.app.cryptocurrency.domain.use_case.get_coin.GetCoinUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,13 +30,17 @@ class CoinDetailViewModel @Inject constructor(
     private val _state = mutableStateOf(CoinDetailState())
     val state: State<CoinDetailState> = _state
 
-    private val _operationState = mutableStateOf(CoinOperationState())
-    val operationState: State<CoinOperationState> = _operationState
+    private val _operationState = MutableStateFlow(CoinOperationState())
+    val operationState: StateFlow<CoinOperationState> = _operationState.asStateFlow()
 
     init {
         savedStateHandle.get<String>(Constants.PARAM_COIN_ID)?.let { coinId ->
             getCoin(coinId)
         }
+    }
+
+    fun resetSuccessState() {
+        _operationState.update { it.copy(success = false) }
     }
 
     private fun getCoin(coinId: String) {

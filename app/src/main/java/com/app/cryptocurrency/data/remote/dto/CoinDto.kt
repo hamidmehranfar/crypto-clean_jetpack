@@ -21,6 +21,6 @@ fun CoinDto.toCoin(): Coin {
         name = name,
         symbol = id,
         imageUrl = "https://www.cryptocompare.com\\$image",
-        price = price,
+        price = String.format("%.3f", price).toDouble(),
     )
 }

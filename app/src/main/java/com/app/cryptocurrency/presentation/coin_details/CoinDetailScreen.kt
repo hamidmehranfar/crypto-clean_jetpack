@@ -19,13 +19,15 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.app.cryptocurrency.data.remote.dto.TabType
 import com.app.cryptocurrency.presentation.Screen
 import com.app.cryptocurrency.presentation.coin_details.components.TabSection
 
 @Composable
 fun CoinDetailScreen(
-    viewModel: CoinDetailViewModel = hiltViewModel()
+    viewModel: CoinDetailViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     val state = viewModel.state.value
 
@@ -60,8 +62,10 @@ fun CoinDetailScreen(
                     }
                 }
                 when (tabIndex) {
-                    0 -> TabSection(type = TabType.Buy, coin = coin)
-                    1 -> TabSection(type = TabType.Sell, coin = coin)
+                    0 -> TabSection(type = TabType.Buy, coin = coin ,
+                        navController = navController)
+                    1 -> TabSection(type = TabType.Sell, coin = coin,
+                        navController = navController)
                 }
             }
         }

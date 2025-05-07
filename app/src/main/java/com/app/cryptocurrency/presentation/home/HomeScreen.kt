@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
 import com.app.cryptocurrency.common.Constants
 import com.app.cryptocurrency.presentation.Screen
@@ -69,7 +68,7 @@ fun HomeScreen() {
             composable(
                 route = Screen.CoinDetailScreen.route + "/{symbol}"
             ) {
-                CoinDetailScreen()
+                CoinDetailScreen(navController = homeNavController)
             }
             composable(
                 route = Screen.HistoryScreen.route

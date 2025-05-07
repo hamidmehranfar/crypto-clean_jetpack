@@ -20,6 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,10 +32,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.app.cryptocurrency.data.remote.dto.AuthType
 import com.app.cryptocurrency.data.remote.dto.TabType
 import com.app.cryptocurrency.domain.model.Coin
+import com.app.cryptocurrency.presentation.Screen
 import com.app.cryptocurrency.presentation.coin_details.CoinDetailViewModel
 import com.app.cryptocurrency.presentation.home.UserViewModel
 
@@ -42,14 +46,24 @@ fun TabSection(
     type: TabType,
     coin: Coin,
     coinViewModal: CoinDetailViewModel = hiltViewModel(),
-    userViewModal: UserViewModel = hiltViewModel()
+    userViewModal: UserViewModel = hiltViewModel(),
+    navController: NavController
 ) {
     var amount by remember { mutableStateOf("") }
     var address by remember { mutableStateOf("") }
 
-    val state by coinViewModal.operationState
+    val state by coinViewModal.operationState.collectAsState()
 
     val user by userViewModal.user
+
+    LaunchedEffect(state.success) {
+        state.success.let {
+            if (state.success == true) {
+                navController.navigate(Screen.HistoryScreen.route)
+                coinViewModal.resetSuccessState()
+            }
+        }
+    }
 
     Column(
         modifier = Modifier
