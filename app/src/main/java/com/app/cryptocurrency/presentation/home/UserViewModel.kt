@@ -3,7 +3,7 @@ package com.app.cryptocurrency.presentation.home
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.app.cryptocurrency.domain.model.User
-import com.app.cryptocurrency.domain.model.UserHolder
+import com.app.cryptocurrency.data.remote.dto.UserHolder
 import javax.inject.Inject
 
 class UserViewModel @Inject constructor() : ViewModel() {

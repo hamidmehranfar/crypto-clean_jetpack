@@ -1,4 +1,6 @@
-package com.app.cryptocurrency.domain.model
+package com.app.cryptocurrency.data.remote.dto
+
+import com.app.cryptocurrency.domain.model.User
 
 object UserHolder {
     private var currentUser: User? = null
